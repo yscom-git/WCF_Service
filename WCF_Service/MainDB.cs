@@ -1,6 +1,9 @@
 ﻿
+using System;
 using System.Data;
 using System.IO;
+using System.Runtime.CompilerServices;
+using System.Security.Policy;
 
 namespace WCF_Service
 {
@@ -15,7 +18,8 @@ namespace WCF_Service
                 if (_oracleDB == null)
                 {
                     _oracleDB = new DB.ORACLE_DB();
-                    DataTable dt = OpenXML(".\\HE_MES_Config.xml");
+                    string cur = AppDomain.CurrentDomain.BaseDirectory;
+                    DataTable dt = OpenXML(cur + "HE_MES_Config.xml");
                     if(dt.Rows.Count>0)
                     {
                         _oracleDB.Open(dt.Rows[0]["DBNAME"].ToString()
