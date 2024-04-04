@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -18,14 +19,16 @@ namespace WCF_Service
                 if (_oracleDB == null)
                 {
                     _oracleDB = new DB.ORACLE_DB();
-                    string cur = AppDomain.CurrentDomain.BaseDirectory;
-                    DataTable dt = OpenXML(cur + "HE_MES_Config.xml");
-                    if(dt.Rows.Count>0)
+                    string svr = ConfigurationManager.AppSettings["DBNAME"].ToString();
+                    string id = ConfigurationManager.AppSettings["DBUID"].ToString();
+                    string pwd = ConfigurationManager.AppSettings["DBPWD"].ToString();
+                    string service = ConfigurationManager.AppSettings["DBSERVICE"].ToString();
+                    if (string.IsNullOrEmpty(svr) ==false)
                     {
-                        _oracleDB.Open(dt.Rows[0]["DBNAME"].ToString()
-                                , dt.Rows[0]["DBUID"].ToString()
-                                , dt.Rows[0]["DBPWD"].ToString()
-                                , dt.Rows[0]["DBSERVICE"].ToString());
+                        _oracleDB.Open(svr
+                                , id
+                                , pwd
+                                , service);
                     }
                     else
                     {

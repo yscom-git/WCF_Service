@@ -70,9 +70,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DB\Oracle.ManagedDataAccess.dll" />
-    <Content Include="HE_MES_Config.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Service.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
