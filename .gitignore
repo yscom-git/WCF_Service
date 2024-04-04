@@ -362,3 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /WCF_Service/HE_MES_Config.xml
+/WCF_Service/Web.config
+/WCF_Service/Web.Debug.config
+/WCF_Service/Web.Release.config
