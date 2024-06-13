@@ -74,6 +74,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBDebug.cs" />
     <Compile Include="DB\COMM_DEF.cs" />
     <Compile Include="DB\IDBBase.cs" />
     <Compile Include="DB\ORACLE_DB.cs">

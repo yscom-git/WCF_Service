@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
+using WCF_Service.DB;
 
 
 namespace WCF_Service
 {
     [System.ServiceModel.ServiceBehavior(IncludeExceptionDetailInFaults = true)]
-    class Service : IService
+    public class Service : IService
     {
         public string GetTestString()
         {
@@ -19,7 +22,7 @@ namespace WCF_Service
             }
             return "No Connection";
         }
-
+       
         public DataSet GetTestDataTable()
         {
             return new DataSet();
@@ -27,15 +30,21 @@ namespace WCF_Service
 
         public DataSet ExecuteQuery(string query, Dictionary<string, string> param = null)
         {
+            string debID = "";
             try
             {
+                debID=DBDebug.WriteLog(DBDebug.StatusEnum.Start, query, param);
+                
                 DataSet ds = new DataSet();
                 ds.Tables.Add(MainDB.Instance.ExcuteQuery(query, param));
+
+                DBDebug.WriteLog(DBDebug.StatusEnum.Complete, query, param, debID);
                 return ds;
             }
             catch (Exception eLog)
             {
                 System.Diagnostics.Debug.WriteLine(eLog.ToString());
+                DBDebug.WriteLog(DBDebug.StatusEnum.Error, eLog.ToString(), param, debID);
                 throw eLog;
             }
         }
@@ -55,13 +64,19 @@ namespace WCF_Service
 
         public int ExecuteNonQuery(string query, Dictionary<string, string> param = null)
         {
+            string debID = "";
             try
             {
-                return MainDB.Instance.ExcuteNonQuery(query, param);
+                debID = DBDebug.WriteLog(DBDebug.StatusEnum.Start, query, param);
+
+                int ret= MainDB.Instance.ExcuteNonQuery(query, param);
+                DBDebug.WriteLog(DBDebug.StatusEnum.Complete, query, param, debID);
+                return ret;
             }
             catch (Exception eLog)
             {
                 System.Diagnostics.Debug.WriteLine(eLog.ToString());
+                DBDebug.WriteLog(DBDebug.StatusEnum.Error, eLog.ToString(), param, debID);
                 throw eLog;
             }
 

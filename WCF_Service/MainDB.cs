@@ -11,7 +11,26 @@ namespace WCF_Service
     class MainDB
     {
         static DB.ORACLE_DB _oracleDB;
-
+        static bool m_DB_DEBUG = false;
+        public static bool DB_DEBUG
+        {
+            get { return m_DB_DEBUG; }
+        }
+        private static bool GetBool(string val)
+        {
+            bool bRet = false;
+            switch(val.ToUpper())
+            {
+                case "TRUE":
+                case "T":
+                case "Y":
+                case "YES":
+                    bRet = true;
+                    break;
+                    
+            }
+            return bRet;
+        }
         public static DB.ORACLE_DB Instance
         {
             get
@@ -22,7 +41,9 @@ namespace WCF_Service
                     string svr = ConfigurationManager.AppSettings["DBNAME"].ToString();
                     string id = ConfigurationManager.AppSettings["DBUID"].ToString();
                     string pwd = ConfigurationManager.AppSettings["DBPWD"].ToString();
-                    string service = ConfigurationManager.AppSettings["DBSERVICE"].ToString();
+                    string service = ConfigurationManager.AppSettings["DBSERVICE"].ToString();           
+
+                    m_DB_DEBUG = GetBool(ConfigurationManager.AppSettings["DB_DEBUG"].ToString());
                     if (string.IsNullOrEmpty(svr) ==false)
                     {
                         _oracleDB.Open(svr
